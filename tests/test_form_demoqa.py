@@ -5,12 +5,11 @@ import os
 def test_form_demoqa():
 
     browser.open('/automation-practice-form')
+    browser.element('#fixedban').execute_script('element.remove()')
+    browser.element('footer').execute_script('element.remove()')
 
     browser.should(have.title('DEMOQA'))
     browser.element('.main-header').should(have.text('Practice Form'))
-    browser.element('#fixedban').execute_script('element.remove()')
-    browser.element('footer').execute_script(
-        'element.remove()')
 
     browser.element('#firstName').type('Test_Name')
     browser.element('#lastName').type('Test_Last_Name')
