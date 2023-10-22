@@ -1,40 +1,27 @@
-from selene import browser, have, be, by
-from qa_guru_python_8_10 import picture
+from qa_guru_python_8_10.pages.registration_page import RegistrationPage
 
 
 def test_form_demoqa():
-
-    # OPEN
-    browser.open('/automation-practice-form')
-    browser.element('#fixedban').execute_script('element.remove()')
-    browser.element('footer').execute_script('element.remove()')
-    # OPEN ASSERT
-    browser.should(have.title('DEMOQA'))
-    browser.element('.main-header').should(have.text('Practice Form'))
+    registration_page = RegistrationPage()
+    registration_page.open()
 
     # WHEN
-    browser.element('#firstName').type('Test_Name')
-    browser.element('#lastName').type('Test_Last_Name')
-    browser.element('#userEmail').type('test@gmail.com')
-    browser.all('.custom-control-input').should(be.disabled)
-    browser.element('#gender-radio-1').double_click()
-    browser.element('#gender-radio-1').should(be.enabled)
-    browser.element('#userNumber').type('8800555353')
-    browser.element('#dateOfBirthInput').click()
-    browser.element('.react-datepicker__month-select').click().element(by.text('December')).click()
-    browser.element('.react-datepicker__year-select').click().element(by.text('2000')).click()
-    browser.element('.react-datepicker__day--011').click()
-    browser.element('#subjectsInput').should(be.blank).type('Computer Science').press_enter()
-    browser.element('[for="hobbies-checkbox-1"]').click()
-    browser.element('#uploadPicture').set_value(picture.path('foto.jpg'))
-    browser.element('#currentAddress').type('Test_Adress, 9')
-    browser.element('#react-select-3-input').type('NCR').press_enter()
-    browser.element('#react-select-4-input').type('Delhi').press_enter()
-    browser.element('#submit').press_enter()
+    registration_page.fill_first_name('Test_Name')
+    registration_page.fill_last_name('Test_Last_Name')
+    registration_page.fill_email('test@gmail.com')
+    registration_page.choose_gender('1')
+    registration_page.fill_mobile_number('8800555353')
+    registration_page.fill_date_of_birth('2000', 'December', '11')
+    registration_page.fill_subjects('Computer Science')
+    registration_page.choose_hobbies('1')
+    registration_page.upload_picture('foto.jpg')
+    registration_page.fill_current_address('Test_Adress, 9')
+    registration_page.select_state('NCR')
+    registration_page.select_city('Delhi')
+    registration_page.submit_form()
 
     # THEN
-    browser.element('.modal-header').should(have.text('Thanks for submitting the form'))
-    browser.element('.table-responsive').all('tr td:nth-child(2)').should(have.texts(
+    registration_page.should_have_registered_user_with(
         'Test_Name Test_Last_Name',
         'test@gmail.com',
         'Male',
@@ -44,5 +31,5 @@ def test_form_demoqa():
         'Sports',
         'foto.jpg',
         'Test_Adress, 9',
-        'NCR Delhi'))
-    browser.element('#closeLargeModal').press_enter()
+        'NCR Delhi'
+    )
