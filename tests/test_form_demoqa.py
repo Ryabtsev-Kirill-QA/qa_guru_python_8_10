@@ -1,16 +1,23 @@
 from selene import browser, have, be, by
-import os
+from pathlib import Path
+import tests
+
+
+def resource_path(file_name):
+    return str(Path(tests.__file__).parent.joinpath(f'picture/{file_name}').absolute())
 
 
 def test_form_demoqa():
 
+    # OPEN
     browser.open('/automation-practice-form')
     browser.element('#fixedban').execute_script('element.remove()')
     browser.element('footer').execute_script('element.remove()')
-
+    # OPEN ASSERT
     browser.should(have.title('DEMOQA'))
     browser.element('.main-header').should(have.text('Practice Form'))
 
+    # WHEN
     browser.element('#firstName').type('Test_Name')
     browser.element('#lastName').type('Test_Last_Name')
     browser.element('#userEmail').type('test@gmail.com')
@@ -24,12 +31,13 @@ def test_form_demoqa():
     browser.element('.react-datepicker__day--011').click()
     browser.element('#subjectsInput').should(be.blank).type('Computer Science').press_enter()
     browser.element('[for="hobbies-checkbox-1"]').click()
-    browser.element('#uploadPicture').send_keys(os.path.abspath('picture/kotenok-morda-lapyi-hvost.jpg'))
+    browser.element('#uploadPicture').set_value(resource_path('foto.jpg'))
     browser.element('#currentAddress').type('Test_Adress, 9')
     browser.element('#react-select-3-input').type('NCR').press_enter()
     browser.element('#react-select-4-input').type('Delhi').press_enter()
     browser.element('#submit').press_enter()
 
+    # THEN
     browser.element('.modal-header').should(have.text('Thanks for submitting the form'))
     browser.element('.table-responsive').all('tr td:nth-child(2)').should(have.texts(
         'Test_Name Test_Last_Name',
@@ -39,7 +47,7 @@ def test_form_demoqa():
         '11 December,2000',
         'Computer Science',
         'Sports',
-        'kotenok-morda-lapyi-hvost.jpg',
+        'foto.jpg',
         'Test_Adress, 9',
         'NCR Delhi'))
     browser.element('#closeLargeModal').press_enter()
