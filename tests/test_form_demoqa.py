@@ -1,5 +1,6 @@
 from selene import browser, have, be, by
-import os
+import tests
+from pathlib import Path
 
 
 def test_form_demoqa():
@@ -25,7 +26,7 @@ def test_form_demoqa():
     browser.element('.react-datepicker__day--011').click()
     browser.element('#subjectsInput').should(be.blank).type('Computer Science').press_enter()
     browser.element('[for="hobbies-checkbox-1"]').click()
-    browser.element('#uploadPicture').send_keys(os.path.abspath('picture/kotenok-morda-lapyi-hvost.jpg'))
+    browser.element('#uploadPicture').set_value(str(Path(tests.__file__).parent.joinpath('picture/foto.jpg').absolute()))
     browser.element('#currentAddress').type('Test_Adress, 9')
     browser.element('#react-select-3-input').type('NCR').press_enter()
     browser.element('#react-select-4-input').type('Delhi').press_enter()
@@ -40,7 +41,7 @@ def test_form_demoqa():
         '11 December,2000',
         'Computer Science',
         'Sports',
-        'kotenok-morda-lapyi-hvost.jpg',
+        'foto.jpg',
         'Test_Adress, 9',
         'NCR Delhi'))
     browser.element('#closeLargeModal').press_enter()
