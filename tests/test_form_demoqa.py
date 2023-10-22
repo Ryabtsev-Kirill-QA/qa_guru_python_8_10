@@ -1,10 +1,5 @@
 from selene import browser, have, be, by
-from pathlib import Path
-import tests
-
-
-def resource_path(file_name):
-    return str(Path(tests.__file__).parent.joinpath(f'picture/{file_name}').absolute())
+from qa_guru_python_8_10 import picture
 
 
 def test_form_demoqa():
@@ -31,7 +26,7 @@ def test_form_demoqa():
     browser.element('.react-datepicker__day--011').click()
     browser.element('#subjectsInput').should(be.blank).type('Computer Science').press_enter()
     browser.element('[for="hobbies-checkbox-1"]').click()
-    browser.element('#uploadPicture').set_value(resource_path('foto.jpg'))
+    browser.element('#uploadPicture').set_value(picture.path('foto.jpg'))
     browser.element('#currentAddress').type('Test_Adress, 9')
     browser.element('#react-select-3-input').type('NCR').press_enter()
     browser.element('#react-select-4-input').type('Delhi').press_enter()
