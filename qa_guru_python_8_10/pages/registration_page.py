@@ -4,6 +4,11 @@ from qa_guru_python_8_10 import picture
 
 class RegistrationPage:
 
+    def __init__(self):
+        self.first_name = browser.element('#firstName')
+        self.last_name = browser.element('#lastName')
+        self.email = browser.element('#userEmail')
+
     def open(self):
         browser.open('/automation-practice-form')
         browser.element('#fixedban').execute_script('element.remove()')
@@ -12,13 +17,13 @@ class RegistrationPage:
         browser.element('.main-header').should(have.text('Practice Form'))
 
     def fill_first_name(self, value):
-        browser.element('#firstName').type(value)
+        self.first_name.type(value)
 
     def fill_last_name(self, value):
-        browser.element('#lastName').type(value)
+        self.last_name.type(value)
 
     def fill_email(self, value):
-        browser.element('#userEmail').type(value)
+        self.email.type(value)
 
     def choose_gender(self, checkbox_position):
         browser.all('.custom-control-input').should(be.disabled)
