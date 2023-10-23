@@ -2,7 +2,6 @@ from qa_guru_python_8_10.data import users
 from qa_guru_python_8_10.pages.registration_page import RegistrationPage
 
 
-
 def test_form_demoqa():
     registration_page = RegistrationPage()
     student = users.student
